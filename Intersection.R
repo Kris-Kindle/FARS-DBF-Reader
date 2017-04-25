@@ -1,7 +1,7 @@
 library(foreign)
 library(tidyverse)
 
-setwd("Directory with Accident Files")
+
 files <- list.files(getwd())
 
 dbfs <- lapply(files, read.dbf)
@@ -13,10 +13,17 @@ var_intersect <- function(df){
   df
 }
 
+
+
 intersected <- lapply(dbfs, var_intersect)
 
 
 acc <- do.call("rbind", intersected)
+
+
+for (i in 90:97){
+  acc$YEAR[acc$YEAR == i] <- 1900 + i
+}
 
 
 write.csv(acc, "Accident.csv")
